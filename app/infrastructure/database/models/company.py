@@ -17,6 +17,7 @@ class Company(BaseModelMixin):
 
 
     users = relationship("User", back_populates="company")
+    clients = relationship("Client", back_populates="company")
 
     def __repr__(self) -> str:
         return f"<Company(id={self.id}, name='{self.name}')>"

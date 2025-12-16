@@ -10,7 +10,7 @@ class UserRepositoryInterface(Protocol):
     """Interface for user repository operations."""
     
     @abstractmethod
-    async def get(self, email: str) -> entities.User | None:
+    async def get_user_by_email(self, email: str) -> entities.User | None:
         """Get user by email."""
         raise NotImplementedError
     

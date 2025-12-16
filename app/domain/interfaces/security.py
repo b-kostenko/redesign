@@ -2,6 +2,8 @@ from typing import Protocol
 
 from app.domain import entities
 
+__all = ["TokenServiceInterface"]
+
 
 class TokenServiceInterface(Protocol):
     """Interface for token service operations."""

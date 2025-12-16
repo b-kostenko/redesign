@@ -2,9 +2,10 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from app.config.logging import logger
+from app.domain.exceptions import base
 
 from app.config.settings import settings
+from app.presentation.api import exception_handlers
 from app.presentation.api.handlers import routers
 from app.presentation.middlewares.company_tenant import CompanyTenantMiddleware
 
@@ -23,7 +24,18 @@ def _include_middleware(app: FastAPI) -> None:
 
 
 def _include_error_handlers(app: FastAPI) -> None:
-    pass
+    app.add_exception_handler(
+        base.AlreadyExistsError,
+        exception_handlers.already_exists_handler
+    )
+    app.add_exception_handler(
+        base.NotFoundError,
+        exception_handlers.not_found_handler
+    )
+    app.add_exception_handler(
+        base.AuthError,
+        exception_handlers.auth_error_handler
+    )
 
 def _include_router(app: FastAPI) -> None:
     app.include_router(routers)

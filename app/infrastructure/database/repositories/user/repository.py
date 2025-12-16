@@ -13,7 +13,7 @@ class UserRepositorySQLAlchemy(UserRepositoryInterface):
         self.session: AsyncSession = session
         self.mapper: UserMapper = mapper
 
-    async def get(self, email: str) -> entities.User | None:
+    async def get_user_by_email(self, email: str) -> entities.User | None:
         """Get user by email."""
         query = select(UserModel).where(UserModel.email == email)
         result = await self.session.execute(query)
