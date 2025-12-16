@@ -11,6 +11,7 @@ from app.infrastructure.database.repositories.company.mapper import CompanyMappe
 from app.application.use_cases.company.service import CompanyService
 from app.infrastructure.database.repositories.company.repository import CompanyRepositorySQLAlchemy
 from app.infrastructure.database.session import create_async_session
+from app.config.settings import settings
 
 
 def get_company_mapper() -> CompanyMapper:
@@ -27,7 +28,7 @@ def get_company_repository(
 def get_company_service(
         repository: CompanyRepositorySQLAlchemy = Depends(get_company_repository),
 ) -> CompanyService:
-    return CompanyService(repository=repository)
+    return CompanyService(repository=repository, domain=settings.app.DOMAIN)
 
 
 def get_tenant_company(request: Request):

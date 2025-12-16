@@ -4,7 +4,7 @@ __all__ = ['Company']
 
 @dataclass(slots=True, kw_only=True)
 class Company:
-    id: int
+    id: int | None = None
     name: str
     slug: str | None = None
     description: str | None = None

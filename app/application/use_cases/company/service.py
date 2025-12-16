@@ -1,20 +1,19 @@
 from app.application.use_cases.company.mapper import CompanyMapper
 from app.domain.interfaces import CompanyRepositoryInterface
 from app.application.use_cases.company import dto
-from app.config.settings import settings
 
 
 class CompanyService:
-    def __init__(self, repository: CompanyRepositoryInterface):
+    def __init__(self, repository: CompanyRepositoryInterface, domain: str):
         self.repository: CompanyRepositoryInterface = repository
+        self.domain: str = domain
 
     @staticmethod
     def _prepare_slug(name: str) -> str:
         return name.lower().replace(" ", "-")
 
-    @staticmethod
-    def _prepare_domain(slug: str) -> str:
-        return f"{slug}.{settings.app.DOMAIN}"
+    def _prepare_domain(self, slug: str) -> str:
+        return f"{slug}.{self.domain}"
 
     async def create_company(self, company_data: dto.Company) -> dto.Company:
         company_entity = CompanyMapper.to_entity(company=company_data)

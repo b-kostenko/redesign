@@ -7,7 +7,8 @@ __all__ = ["CompanyMapper"]
 
 class CompanyMapper:
 
-    def to_model(self, company_entity: entities.Company) -> models.Company:
+    @staticmethod
+    def to_model(company_entity: entities.Company) -> models.Company:
         return models.Company(
             name=company_entity.name,
             slug=company_entity.slug,
@@ -17,7 +18,8 @@ class CompanyMapper:
             email=company_entity.email
         )
 
-    def to_entity(self, company: models.Company) -> entities.Company:
+    @staticmethod
+    def to_entity(company: models.Company) -> entities.Company:
         return entities.Company(
             id=company.id,
             name=company.name,

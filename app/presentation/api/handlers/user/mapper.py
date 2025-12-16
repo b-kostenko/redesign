@@ -1,6 +1,5 @@
 from app.presentation.api.schemas.user import UserCreate, UserResponse
 from app.application.use_cases.user import dto
-from app.domain import entities
 
 
 class UserMapper:

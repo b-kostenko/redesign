@@ -9,7 +9,7 @@ class UserRole(StrEnum):
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class User:
-    id: int
+    id: int | None = None
     email: str
     password: str
     first_name: str
