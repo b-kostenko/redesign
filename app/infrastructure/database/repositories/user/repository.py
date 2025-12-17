@@ -21,6 +21,14 @@ class UserRepositorySQLAlchemy(UserRepositoryInterface):
             return None
         return self.mapper.to_entity(user_model)
 
+    async def get_all_users(self, company_id: int) -> list[entities.User] | None:
+        query = select(UserModel).where(UserModel.company_id == company_id)
+        result = await self.session.execute(query)
+        user_models = result.scalars().all()
+        if not user_models:
+            return None
+        return [self.mapper.to_entity(user_model) for user_model in user_models]
+
     async def create_user(self, user_entity: entities.User) -> entities.User:
         user_model = self.mapper.to_model(user_entity)
         self.session.add(user_model)

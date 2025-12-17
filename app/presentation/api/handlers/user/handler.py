@@ -15,3 +15,11 @@ async def create(
     user_dto = UserMapper.schema_to_dto(user=payload)
     user = await user_service.create_user(user_data=user_dto, company=tenant_company)
     return UserMapper.dto_to_schema(user=user)
+
+
+@router.get("/", response_model=list[UserResponse], status_code=status.HTTP_200_OK, description="Get all users")
+async def get_all(user_service: user_service_deps, tenant_company: tenant_company_deps) -> list[UserResponse]:
+    users_dto = await user_service.get_all_users(company=tenant_company)
+    if not users_dto:
+        return []
+    return [UserMapper.dto_to_schema(user=user) for user in users_dto]

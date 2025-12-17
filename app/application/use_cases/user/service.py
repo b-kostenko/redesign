@@ -11,6 +11,12 @@ class UserService:
         self.user_repository: UserRepositoryInterface = user_repository
         self.password_hasher: PasswordHasherInterface = password_hasher
 
+    async def get_all_users(self, company: CompanyDTO) -> list[UserDTO] | None:
+        users = await self.user_repository.get_all_users(company_id=company.id)
+        if not users:
+            return None
+        return [UserMapper.to_dto(user=user) for user in users]
+
     async def create_user(self, user_data: UserDTO, company: CompanyDTO) -> UserDTO:
         hashed_password = self.password_hasher.hash_password(user_data.password)
         user_data.password = hashed_password
