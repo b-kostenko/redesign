@@ -12,9 +12,18 @@ from starlette.responses import Response
 
 
 class CompanyTenantMiddleware(BaseHTTPMiddleware):
+    PUBLIC_PATHS = (
+        "/docs",
+        "/redoc",
+        "/openapi.json",
+        "/api/v1/public",
+    )
 
     async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
-        host = request.headers.get("host")
+        if request.url.path.startswith(self.PUBLIC_PATHS):
+            return await call_next(request)
+
+        host = request.url.hostname
         if host is None:
             return not_found_handler(request, CompanyNotFoundError(company_attr="unknown"))
 
