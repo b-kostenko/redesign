@@ -1,7 +1,6 @@
 from app.domain import entities
 from app.infrastructure.database import models
 
-
 __all__ = ["UserMapper"]
 
 

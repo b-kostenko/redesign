@@ -1,8 +1,7 @@
-import jwt
-from typing import final
 from datetime import datetime, timedelta, timezone
-from typing import Dict, Any
+from typing import final
 
+import jwt
 from app.config.settings import settings
 from app.domain import entities
 from app.domain.entities.auth import TokenType
@@ -11,7 +10,7 @@ from app.domain.interfaces.security import TokenServiceInterface
 
 @final
 class JwtTokenService(TokenServiceInterface):
-    def __init__(self):
+    def __init__(self) -> None:
         self._secret_key = settings.token.SECRET_KEY
         self._algorithm = settings.token.ALGORITHM
 
@@ -28,9 +27,7 @@ class JwtTokenService(TokenServiceInterface):
         )
 
         return entities.Token(
-            access_token=access_token,
-            refresh_token=refresh_token,
-            token_type=settings.token.TOKEN_TYPE
+            access_token=access_token, refresh_token=refresh_token, token_type=settings.token.TOKEN_TYPE
         )
 
     def create_token(self, payload: dict, token_type: TokenType, expire_minutes: int) -> str:
@@ -45,7 +42,7 @@ class JwtTokenService(TokenServiceInterface):
             algorithms=[self._algorithm],
         )
 
-    def verify_token(self, token: str, token_type: TokenType) -> Dict[str, Any]:
+    def verify_token(self, token: str, token_type: TokenType) -> dict:
         payload = self.decode_token(token)
         if payload.get("type") != token_type:
             raise ValueError("Invalid token type")

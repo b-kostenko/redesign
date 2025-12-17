@@ -15,3 +15,11 @@ class TokenServiceInterface(Protocol):
     def create_token(self, payload: dict, token_type: entities.TokenType, expire_minutes: int) -> str:
         """Create a token of a specific type for a given user ID."""
         raise NotImplementedError
+
+    def decode_token(self, token: str) -> dict:
+        """Decode a token and return its payload."""
+        raise NotImplementedError
+
+    def verify_token(self, token: str, token_type: entities.TokenType) -> dict:
+        """Verify the validity of a token of a specific type."""
+        raise NotImplementedError

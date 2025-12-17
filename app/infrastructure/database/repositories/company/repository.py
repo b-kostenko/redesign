@@ -1,9 +1,10 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.domain import entities
 from app.domain.interfaces import CompanyRepositoryInterface
 from app.infrastructure.database.models import Company
 from app.infrastructure.database.repositories.company.mapper import CompanyMapper
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 
 class CompanyRepositorySQLAlchemy(CompanyRepositoryInterface):
 
@@ -11,8 +12,13 @@ class CompanyRepositorySQLAlchemy(CompanyRepositoryInterface):
         self.session: AsyncSession = session
         self.mapper: CompanyMapper = mapper
 
-    async def get_company_by_name(self, company_name: str):
-        pass
+    async def get_company_by_name(self, name: str) -> entities.Company | None:
+        query = select(Company).where(Company.name == name)
+        result = await self.session.execute(query)
+        company_model = result.scalars().first()
+        if not company_model:
+            return None
+        return self.mapper.to_entity(company_model)
 
     async def get_company_by_domain(self, company_domain: str) -> entities.Company | None:
         query = select(Company).where(Company.domain == company_domain)
@@ -22,8 +28,7 @@ class CompanyRepositorySQLAlchemy(CompanyRepositoryInterface):
             return None
         return self.mapper.to_entity(company_model)
 
-
-    async def create_company(self, company_entity: entities.Company) -> entities.Company:
+    async def create_company(self, company_entity: entities.CompanyCreate) -> entities.Company:
         company_model = self.mapper.to_model(company_entity)
         self.session.add(company_model)
         await self.session.commit()

@@ -1,12 +1,12 @@
-from app.presentation.api.schemas.user import UserCreate, UserResponse
 from app.application.use_cases.user import dto
+from app.presentation.api.schemas.user import UserCreate, UserResponse
 
 
 class UserMapper:
 
     @staticmethod
-    def schema_to_dto(user: UserCreate) -> dto.User:
-        return dto.User(
+    def schema_to_dto(user: UserCreate) -> dto.UserDTO:
+        return dto.UserDTO(
             id=None,
             email=user.email,
             password=user.password,
@@ -16,7 +16,7 @@ class UserMapper:
         )
 
     @staticmethod
-    def dto_to_schema(user: dto.User) -> UserResponse:
+    def dto_to_schema(user: dto.UserDTO) -> UserResponse:
         return UserResponse(
             id=user.id,
             email=user.email,

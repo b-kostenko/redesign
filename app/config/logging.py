@@ -32,9 +32,7 @@ class StdLogger(Logger):
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(settings.level)
 
-        formatter = logging.Formatter(
-            "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
         handler.setFormatter(formatter)
 
         root.handlers.clear()

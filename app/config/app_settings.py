@@ -13,5 +13,4 @@ class AppSettings(BaseSettings):
     PROJECT_VERSION: str = Field(default="1.0.0", alias="PROJECT_VERSION")
     DEBUG: bool = Field(default=False, alias="DEBUG")
 
-
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", env_file_encoding="utf-8")

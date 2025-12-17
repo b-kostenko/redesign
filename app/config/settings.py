@@ -1,7 +1,6 @@
+from app.config import AppSettings, DatabaseSettings, TokenSettings
 from pydantic import Field
 from pydantic_settings import BaseSettings
-
-from app.config import AppSettings, DatabaseSettings, TokenSettings
 
 
 class Settings(BaseSettings):

@@ -1,14 +1,17 @@
 from app.domain.exceptions.base import AuthError
 
-__all__ = ['InvalidCredentials', 'TokenExpired']
+__all__ = ["InvalidCredentialsError", "TokenExpiredError"]
 
-class InvalidCredentials(AuthError):
-    """Exception raised for invalid authentication credentials. """
-    def __init__(self):
+
+class InvalidCredentialsError(AuthError):
+    """Exception raised for invalid authentication credentials."""
+
+    def __init__(self) -> None:
         super().__init__("Invalid email or password")
 
 
-class TokenExpired(AuthError):
+class TokenExpiredError(AuthError):
     """Exception raised when an authentication token has expired."""
-    def __init__(self):
+
+    def __init__(self) -> None:
         super().__init__("Token has expired")

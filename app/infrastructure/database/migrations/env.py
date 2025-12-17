@@ -2,11 +2,9 @@ from logging.config import fileConfig
 
 from alembic import context
 from alembic.script import ScriptDirectory
-from sqlalchemy.ext.asyncio import create_async_engine
-
-from app.infrastructure.database.models import BaseModelMixin
-from app.infrastructure.database.models import User, Company  # Импортируем все модели для регистрации в метаданных
 from app.config.settings import settings
+from app.infrastructure.database.models import BaseModelMixin
+from sqlalchemy.ext.asyncio import create_async_engine
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -68,7 +66,7 @@ async def run_migrations_online():
     try:
         engine = create_async_engine(
             config.get_main_option("sqlalchemy.url"),
-            connect_args={"ssl": False} if "postgresql" in config.get_main_option("sqlalchemy.url", "") else {}
+            connect_args={"ssl": False} if "postgresql" in config.get_main_option("sqlalchemy.url", "") else {},
         )
 
         async with engine.connect() as connection:

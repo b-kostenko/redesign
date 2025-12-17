@@ -1,6 +1,5 @@
-from pydantic import BaseModel
-
 from app.presentation.api.schemas.company import CompanyResponseSchema
+from pydantic import BaseModel
 
 
 class ClientBaseSchema(BaseModel):

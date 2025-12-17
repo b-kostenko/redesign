@@ -1,13 +1,12 @@
 from collections.abc import AsyncGenerator
 
+from app.config.settings import settings
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
-
-from app.config.settings import settings
 
 
 def create_engine(url: str, is_echo: bool = True) -> AsyncEngine:

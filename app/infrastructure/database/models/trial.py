@@ -1,6 +1,6 @@
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import Mapped, relationship, mapped_column
 from app.infrastructure.database.models import BaseModelMixin
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 __all__ = ["Trial"]
 

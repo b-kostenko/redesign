@@ -1,9 +1,8 @@
 import hashlib
 from typing import final
 
-from passlib.context import CryptContext
-
 from app.domain.interfaces.hashing import PasswordHasherInterface
+from passlib.context import CryptContext
 
 
 @final

@@ -1,53 +1,57 @@
+from app.application.use_cases.auth.dto import LoginDTO, Token
 from app.application.use_cases.auth.mapper import TokenMapper
-from app.domain.exceptions.auth import InvalidCredentials
+from app.application.use_cases.company.dto import CompanyDTO
+from app.application.use_cases.user.dto import UserDTO
+from app.application.use_cases.user.mapper import UserMapper
+from app.domain.exceptions.auth import InvalidCredentialsError
+from app.domain.exceptions.company import CompanyMismatchError
 from app.domain.exceptions.user import UserNotFoundError
 from app.domain.interfaces import (
     CompanyRepositoryInterface,
     PasswordHasherInterface,
+    TokenServiceInterface,
     UserRepositoryInterface,
-    TokenServiceInterface
 )
-from app.application.use_cases.auth import dto
-from app.application.use_cases.company import dto as company_dto
 
 
 class AuthService:
     def __init__(
-            self,
-            user_repository: UserRepositoryInterface,
-            company_repository: CompanyRepositoryInterface,
-            password_hasher: PasswordHasherInterface,
-            auth_security: TokenServiceInterface,
+        self,
+        user_repository: UserRepositoryInterface,
+        company_repository: CompanyRepositoryInterface,
+        password_hasher: PasswordHasherInterface,
+        auth_security: TokenServiceInterface,
     ) -> None:
         self.user_repository: UserRepositoryInterface = user_repository
         self.company_repository: CompanyRepositoryInterface = company_repository
         self.password_hasher: PasswordHasherInterface = password_hasher
         self.auth_security: TokenServiceInterface = auth_security
 
-    async def login(self, login_dto: dto.LoginDTO, tenant_company: company_dto.Company):
+    async def login(self, login_dto: LoginDTO, tenant_company: CompanyDTO) -> Token:
         user = await self.user_repository.get_user_by_email(email=login_dto.email)
         if not user:
             raise UserNotFoundError(email=login_dto.email)
 
         if user.company_id != tenant_company.id:
-            raise InvalidCredentials()
+            raise InvalidCredentialsError()
 
         if not self.password_hasher.verify_password(plain_password=login_dto.password, hashed_password=user.password):
-            raise InvalidCredentials()
+            raise InvalidCredentialsError()
 
         token = self.auth_security.generate_tokens_for_user(user)
         return TokenMapper.to_dto(token=token)
 
-    # def generate_tokens_for_user(self, user: User) -> TokenSchema:
-    #     access_token = create_token(
-    #         payload={"sub": user.email},
-    #         token_type=TokenType.ACCESS,
-    #         expire_minutes=settings.token.ACCESS_TOKEN_EXPIRE_MINUTES,
-    #     )
-    #     refresh_token = create_token(
-    #         payload={"sub": user.email},
-    #         token_type=TokenType.REFRESH,
-    #         expire_minutes=settings.token.REFRESH_TOKEN_EXPIRE_MINUTES,
-    #     )
-    #
-    #     return TokenSchema(access_token=access_token, refresh_token=refresh_token, token_type=settings.token.TOKEN_TYPE)
+    async def get_current_user(self, token: str, current_company: CompanyDTO) -> UserDTO:
+        payload = self.auth_security.decode_token(token)
+        user_email = payload.get("sub")
+        if not user_email:
+            raise InvalidCredentialsError()
+
+        user = await self.user_repository.get_user_by_email(email=user_email)
+        if not user:
+            raise InvalidCredentialsError()
+
+        if user.company_id != current_company.id:
+            raise CompanyMismatchError(user_company_id=user.company_id, current_company_id=current_company.id)
+
+        return UserMapper.to_dto(user=user)

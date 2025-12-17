@@ -1,11 +1,13 @@
-from enum import StrEnum
 from dataclasses import dataclass
+from enum import StrEnum
 
-__all__ = ['UserRole', 'User']
+__all__ = ["UserRole", "User"]
+
 
 class UserRole(StrEnum):
     ADMIN = "admin"
     MEMBER = "member"
+
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class User:
@@ -17,6 +19,3 @@ class User:
     avatar_url: str
     company_id: int
     is_superuser: bool = False
-
-
-

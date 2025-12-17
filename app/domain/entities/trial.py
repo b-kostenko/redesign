@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-__all__ = ['Trial']
+__all__ = ["Trial"]
+
 
 @dataclass(kw_only=True)
 class Trial:

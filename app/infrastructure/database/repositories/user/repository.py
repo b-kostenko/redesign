@@ -1,10 +1,9 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-
 from app.domain import entities
 from app.domain.interfaces.user import UserRepositoryInterface
-from app.infrastructure.database.repositories.user.mapper import UserMapper
 from app.infrastructure.database.models import User as UserModel
+from app.infrastructure.database.repositories.user.mapper import UserMapper
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class UserRepositorySQLAlchemy(UserRepositoryInterface):

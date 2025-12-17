@@ -1,10 +1,16 @@
 from dataclasses import dataclass
-from app.application.use_cases import dtos
 
-__all__ = ['ClientDTO']
+from app.application.use_cases.company.dto import CompanyDTO
+
+__all__ = ["ClientDTO", "ClientCreateDTO"]
+
 
 @dataclass(kw_only=True)
-class ClientDTO:
-    id: int | None = None
+class ClientCreateDTO:
     name: str
-    company: dtos.Company
+    company: CompanyDTO
+
+
+@dataclass(kw_only=True)
+class ClientDTO(ClientCreateDTO):
+    id: int

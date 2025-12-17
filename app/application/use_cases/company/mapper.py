@@ -1,5 +1,5 @@
+from app.application.use_cases.company.dto import CompanyCreateDTO, CompanyDTO
 from app.domain import entities
-from app.application.use_cases.company import dto
 
 __all__ = ["CompanyMapper"]
 
@@ -7,25 +7,24 @@ __all__ = ["CompanyMapper"]
 class CompanyMapper:
 
     @staticmethod
-    def to_entity(company: dto.Company) -> entities.Company:
-        return entities.Company(
-            id=company.id,
-            slug=company.slug,
+    def dto_to_entity(company: CompanyCreateDTO, company_slug: str, company_domain: str) -> entities.CompanyCreate:
+        return entities.CompanyCreate(
+            slug=company_slug,
             name=company.name,
             description=company.description,
-            domain=company.domain,
+            domain=company_domain,
             zip=company.zip,
-            email=company.email
+            email=company.email,
         )
 
     @staticmethod
-    def to_dto(company: entities.Company) -> dto.Company:
-        return dto.Company(
+    def entity_to_dto(company: entities.Company) -> CompanyDTO:
+        return CompanyDTO(
             id=company.id,
             slug=company.slug,
             name=company.name,
             description=company.description,
             domain=company.domain,
             zip=company.zip,
-            email=company.email
+            email=company.email,
         )

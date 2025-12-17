@@ -1,13 +1,18 @@
 from dataclasses import dataclass
 
-__all__ = ['Company']
+__all__ = ["CompanyCreateDTO", "CompanyDTO"]
+
 
 @dataclass(slots=True, kw_only=True)
-class Company:
-    id: int | None = None
+class CompanyCreateDTO:
     name: str
-    slug: str | None = None
     description: str | None = None
-    domain: str | None = None
     zip: str
     email: str
+
+
+@dataclass(slots=True, kw_only=True)
+class CompanyDTO(CompanyCreateDTO):
+    id: int
+    slug: str
+    domain: str

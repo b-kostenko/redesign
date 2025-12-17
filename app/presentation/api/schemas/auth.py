@@ -1,7 +1,5 @@
 from pydantic import BaseModel, EmailStr
 
-from app.domain.entities import TokenType
-
 
 class UserLoginSchema(BaseModel):
     """Schema for user login data."""

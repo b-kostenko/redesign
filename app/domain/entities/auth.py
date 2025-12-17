@@ -1,7 +1,7 @@
-from enum import StrEnum
 from dataclasses import dataclass
+from enum import StrEnum
 
-__all__ = ['TokenType', 'Token']
+__all__ = ["TokenType", "Token"]
 
 
 class TokenType(StrEnum):

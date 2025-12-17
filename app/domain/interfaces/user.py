@@ -8,12 +8,12 @@ __all__ = ["UserRepositoryInterface"]
 
 class UserRepositoryInterface(Protocol):
     """Interface for user repository operations."""
-    
+
     @abstractmethod
     async def get_user_by_email(self, email: str) -> entities.User | None:
         """Get user by email."""
         raise NotImplementedError
-    
+
     @abstractmethod
     async def create_user(self, user_entity: entities.User) -> entities.User:
         """Create a new user with the provided data."""

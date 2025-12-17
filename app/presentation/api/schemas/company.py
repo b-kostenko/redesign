@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 
+
 class CompanySchema(BaseModel):
     name: str
     description: str | None = None

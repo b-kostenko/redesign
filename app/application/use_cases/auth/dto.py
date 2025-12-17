@@ -10,7 +10,6 @@ class TokenType(StrEnum):
     REFRESH = "refresh"
 
 
-
 @dataclass(slots=True, kw_only=True)
 class LoginDTO:
     email: str
@@ -21,4 +20,4 @@ class LoginDTO:
 class Token:
     access_token: str
     refresh_token: str
-    token_type: TokenType = TokenType.ACCESS
+    token_type: str

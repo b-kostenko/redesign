@@ -1,10 +1,8 @@
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import Mapped, relationship, mapped_column
 from app.infrastructure.database.models import BaseModelMixin
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-__all__ = [
-    "User"
-]
+__all__ = ["User"]
 
 
 class User(BaseModelMixin):
@@ -20,7 +18,5 @@ class User(BaseModelMixin):
 
     company = relationship("Company", back_populates="users")
 
-
     def __repr__(self) -> str:
         return f"<User(id={self.id}, email='{self.email}')>"
-

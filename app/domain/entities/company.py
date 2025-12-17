@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-__all__ = ['Company']
+__all__ = ["Company", "CompanyCreate"]
+
 
 @dataclass(kw_only=True)
-class Company:
-    id: int | None = None
+class CompanyCreate:
     name: str
     slug: str
     description: str | None = None
@@ -13,6 +13,12 @@ class Company:
     email: str
 
 
-
-
-
+@dataclass(kw_only=True)
+class Company:
+    id: int
+    name: str
+    slug: str
+    description: str | None = None
+    domain: str
+    zip: str
+    email: str
